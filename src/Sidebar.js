@@ -1,10 +1,19 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTachometerAlt, faUser, faBroadcastTower, faBell, faChartBar, faVideo } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTachometerAlt,
+  faUser,
+  faBroadcastTower,
+  faBell,
+  faChartBar,
+  faVideo,
+} from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "./context/UserContext";
 
 const Sidebar = () => {
   const navigate = useNavigate();
+  const { adminMail, userMail } = useAuth();
 
   // Function to navigate to the respective path
   const navigateTo = (path) => {
@@ -20,32 +29,45 @@ const Sidebar = () => {
         </div>
         {/* Navigation Links */}
         <nav className="mt-5">
-          <a onClick={() => navigateTo('/dashboard')} className="flex items-center p-2 my-2 transition-colors duration-200 justify-start text-gray-600 hover:text-gray-700 cursor-pointer">
+          <a
+            onClick={() => navigateTo(userMail ? "/dashboard" : "/admin")}
+            className="flex items-center p-2 my-2 transition-colors duration-200 justify-start text-gray-600 hover:text-gray-700 cursor-pointer"
+          >
             <FontAwesomeIcon icon={faTachometerAlt} className="w-5 h-5" />
             <span className="mx-4 text-sm font-normal">Dashboard</span>
           </a>
-          <a onClick={() => navigateTo('/profile')} className="flex items-center p-2 my-2 transition-colors duration-200 justify-start text-gray-600 hover:text-gray-700 cursor-pointer">
+          <a
+            onClick={() => navigateTo("/profile")}
+            className="flex items-center p-2 my-2 transition-colors duration-200 justify-start text-gray-600 hover:text-gray-700 cursor-pointer"
+          >
             <FontAwesomeIcon icon={faUser} className="w-5 h-5" />
             <span className="mx-4 text-sm font-normal">Profile</span>
           </a>
-          <a onClick={() => navigateTo('/live')} className="flex items-center p-2 my-2 transition-colors duration-200 justify-start text-gray-600 hover:text-gray-700 cursor-pointer">
+          <a
+            onClick={() => navigateTo("/live")}
+            className="flex items-center p-2 my-2 transition-colors duration-200 justify-start text-gray-600 hover:text-gray-700 cursor-pointer"
+          >
             <FontAwesomeIcon icon={faBroadcastTower} className="w-5 h-5" />
             <span className="mx-4 text-sm font-normal">Go Live</span>
           </a>
-          <a onClick={() => navigateTo('/notifications')} className="flex items-center p-2 my-2 transition-colors duration-200 justify-start text-gray-600 hover:text-gray-700 cursor-pointer">
+          <a
+            onClick={() => navigateTo("/notifications")}
+            className="flex items-center p-2 my-2 transition-colors duration-200 justify-start text-gray-600 hover:text-gray-700 cursor-pointer"
+          >
             <FontAwesomeIcon icon={faBell} className="w-5 h-5" />
             <span className="mx-4 text-sm font-normal">Notification</span>
           </a>
-          <a onClick={() => navigateTo('/statistics')} className="flex items-center p-2 my-2 transition-colors duration-200 justify-start text-gray-600 hover:text-gray-700 cursor-pointer">
+          <a
+            onClick={() => navigateTo("/statistics")}
+            className="flex items-center p-2 my-2 transition-colors duration-200 justify-start text-gray-600 hover:text-gray-700 cursor-pointer"
+          >
             <FontAwesomeIcon icon={faChartBar} className="w-5 h-5" />
             <span className="mx-4 text-sm font-normal">Statistics</span>
           </a>
         </nav>
       </div>
       {/* Bottom section if needed */}
-      <div>
-        {/* Placeholder for bottom content */}
-      </div>
+      <div>{/* Placeholder for bottom content */}</div>
     </aside>
   );
 };

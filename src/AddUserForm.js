@@ -1,11 +1,12 @@
 // AddUser.js
 import React, { useState } from "react";
+import { addUser } from "./utils/api";
 
 const AddUser = ({ onAddUser }) => {
   const [newUser, setNewUser] = useState({
-    name: "",
-    city: "",
-    email: "",
+    userName: "",
+    userCity: "",
+    userMail: "",
     password: "",
     cctvIp: "",
   });
@@ -15,10 +16,22 @@ const AddUser = ({ onAddUser }) => {
     setNewUser({ ...newUser, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onAddUser(newUser);
-    setNewUser({ name: "", city: "", email: "", password: "", cctvIp: "" }); // Reset form
+    const result = await addUser(newUser);
+
+    if (result) {
+      console.log(result, "REsult");
+      onAddUser(newUser);
+      setNewUser({
+        userName: "",
+        userCity: "",
+        userMail: "",
+        password: "",
+        cctvIp: "",
+      });
+      alert("User added Successfully");
+    }
   };
 
   return (
@@ -37,25 +50,25 @@ const AddUser = ({ onAddUser }) => {
         <input
           type="text"
           id="name"
-          name="name"
+          name="userName"
           required
-          value={newUser.name}
+          value={newUser.userName}
           onChange={handleChange}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
 
         <label
           className="block text-gray-700 text-sm font-bold mb-2"
-          htmlFor="city"
+          htmlFor="userCity"
         >
           City
         </label>
         <input
           type="text"
-          id="city"
-          name="city"
+          id="userCity"
+          name="userCity"
           required
-          value={newUser.city}
+          value={newUser.userCity}
           onChange={handleChange}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
@@ -69,9 +82,9 @@ const AddUser = ({ onAddUser }) => {
         <input
           type="email"
           id="email"
-          name="email"
+          name="userMail"
           required
-          value={newUser.email}
+          value={newUser.userMail}
           onChange={handleChange}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
@@ -98,7 +111,7 @@ const AddUser = ({ onAddUser }) => {
         >
           CCTV IP
         </label>
-        <input
+        <textarea
           type="text"
           id="cctvIp"
           name="cctvIp"

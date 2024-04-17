@@ -25,12 +25,13 @@ async function login(email, password) {
 }
 
 // function to get profiles details
-async function getProfileDetails(userMail) {
+async function getProfileDetails(userMail, isAdmin) {
   try {
     const response = await axios.post(
       `${BASE_URL}/getProfileDetails`,
       {
         userMail,
+        isAdmin,
       },
       {
         "Content-Type": "application/json",
@@ -61,4 +62,78 @@ async function updateCCTVIps(userMail, ips) {
   }
 }
 
-export { login, getProfileDetails, updateCCTVIps };
+// function to get profiles details
+async function getAllUserProfiles() {
+  try {
+    const response = await axios.get(`${BASE_URL}/getProfileDetails`, {
+      "Content-Type": "application/json",
+    });
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function addUser(user) {
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/getProfileDetails/user`,
+      {
+        ...user,
+        cctvIp: user.cctvIp.split("\n"),
+      },
+      {
+        "Content-Type": "application/json",
+      }
+    );
+    return response.data;
+  } catch (error) {
+    alert("User cannot be added");
+  }
+}
+
+async function removeUser(userMail) {
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/getProfileDetails/user/remove`,
+      {
+        userMail,
+      },
+      {
+        "Content-Type": "application/json",
+      }
+    );
+    return response.data;
+  } catch (error) {
+    alert("User cannot be added");
+  }
+}
+
+async function updateAdminDetails(adminMail, fullName, city) {
+  try {
+    const response = await axios.put(
+      `${BASE_URL}/getProfileDetails/admin/update`,
+      {
+        fullName,
+        city,
+        adminMail,
+      },
+      {
+        "Content-Type": "application/json",
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export {
+  login,
+  getProfileDetails,
+  updateCCTVIps,
+  getAllUserProfiles,
+  addUser,
+  removeUser,
+  updateAdminDetails,
+};

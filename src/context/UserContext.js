@@ -9,13 +9,18 @@ export const UserProvider = ({ children }) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false); // Initialize loading state
   const [userMail, setUserMail] = useState("");
+  const [adminMail, setAdminMail] = useState("");
 
   const login = useCallback(async (email, password) => {
     setError(""); // Reset error state
     setLoading(true); // Set loading to true when login starts
     try {
       const data = await loginUser(email, password);
-      if (data.userMail) {
+
+      if (data.adminMail) {
+        setIsAuthenticated(true);
+        setAdminMail(data.adminMail);
+      } else if (data.userMail) {
         setIsAuthenticated(true);
         setUserMail(data.userMail);
       } else {
@@ -34,7 +39,7 @@ export const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ isAuthenticated, userMail, login, error, loading }}
+      value={{ isAuthenticated, adminMail, userMail, login, error, loading }}
     >
       {children}
     </UserContext.Provider>

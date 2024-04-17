@@ -1,5 +1,5 @@
 // LoginPage.js
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./context/UserContext";
 
@@ -7,12 +7,19 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { login, loading, error } = useAuth();
+  const { login, loading, error, adminMail, userMail } = useAuth();
+
+  useEffect(() => {
+    if (adminMail) navigate("/admin");
+  }, [adminMail]);
+
+  useEffect(() => {
+    if (userMail) navigate("/dashboard");
+  }, [userMail]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     await login(email, password);
-    navigate("/dashboard");
   };
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">

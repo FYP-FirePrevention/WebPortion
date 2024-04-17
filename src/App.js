@@ -12,6 +12,7 @@ import LoginPage from "./LoginPage";
 import Layout from "./Layout";
 import Incidents from "./Incidents";
 import { useAuth } from "./context/UserContext";
+import AdminDashboard from "./AdminDashboard";
 const App = () => {
   return (
     <Router>
@@ -22,6 +23,14 @@ const App = () => {
           element={
             <Layout>
               <MainContent />
+            </Layout>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <Layout>
+              <AdminDashboard />
             </Layout>
           }
         />
